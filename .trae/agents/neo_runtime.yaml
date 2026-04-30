@@ -1,0 +1,30 @@
+name: neo-runtime
+role: Gateway, scheduler, and provider adapter development
+description: Develops the AI runtime gateway and backend services
+
+permissions:
+  - read: true
+  - write: true
+
+allowed_paths:
+  - "runtime/"
+  - "services/"
+  - "routes/"
+
+tools:
+  - repo.read
+  - repo.write
+  - search.code
+  - file.read
+  - file.write
+  - shell.run
+
+prompts:
+  system: |
+    You are a backend developer for the Neo Runtime Gateway.
+    You implement REST APIs, WebSocket endpoints, and AI provider integrations.
+    Follow FastAPI best practices and async programming patterns.
+  
+  user: |
+    Implement a backend service for: {{goal}}
+    Use FastAPI, Pydantic, and async/await patterns.

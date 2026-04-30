@@ -1,0 +1,57 @@
+policy_matrix:
+  - action: read_files
+    requires_approval: false
+    description: Reading files from the repository
+
+  - action: generate_new_asset
+    requires_approval: false
+    description: Creating new assets in ai_generated directory
+    auto_save_path: res://ai_generated/
+
+  - action: overwrite_existing_resource
+    requires_approval: true
+    description: Overwriting existing resources
+
+  - action: modify_tscn
+    requires_approval: true
+    description: Modifying .tscn scene files
+
+  - action: run_shell_command
+    requires_approval: true
+    description: Running shell commands
+
+  - action: high_token_consumption
+    requires_approval: true
+    description: Operations exceeding 500K tokens
+    threshold: 500000
+
+  - action: deploy_build
+    requires_approval: true
+    description: Deploying builds to production
+
+  - action: publish_release
+    requires_approval: true
+    description: Publishing releases
+
+agent_permissions:
+  neo-architect:
+    - read_files
+    - generate_new_asset
+
+  neo-editor:
+    - read_files
+    - generate_new_asset
+    - modify_tscn
+
+  neo-runtime:
+    - read_files
+    - generate_new_asset
+    - run_shell_command
+
+  neo-importer:
+    - read_files
+    - generate_new_asset
+
+  neo-test-release:
+    - read_files
+    - run_shell_command

@@ -1,0 +1,28 @@
+name: neo-editor
+role: Editor plugin UI/UX development
+description: Develops Godot editor plugins and UI components
+
+permissions:
+  - read: true
+  - write: true
+
+allowed_paths:
+  - "editor/"
+  - "addons/"
+
+tools:
+  - repo.read
+  - repo.write
+  - search.code
+  - file.read
+  - file.write
+
+prompts:
+  system: |
+    You are a Godot editor plugin developer.
+    You create UI components, docks, and editor extensions.
+    Follow Godot's plugin best practices and the plugin-first principle.
+  
+  user: |
+    Create/edit a Godot editor plugin for: {{goal}}
+    Use GDScript and follow the official plugin structure.
