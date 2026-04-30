@@ -1,9 +1,35 @@
-# 自动化集成规则
+# Integration Rules
 
-## 追踪与回滚
-* 每次代码变更必须关联唯一的 `trace_id`[cite: 1]。
-* 所有涉及 Godot 编辑器的操作必须封装在 `EditorUndoRedoManager` 中，确保支持一键撤销[cite: 2]。
+## Traceability Requirements
+- All API calls must include `trace_id`
+- All task executions must be traced
+- Approval decisions must be recorded with timestamp
 
-## 质量保证
-* 所有生成的代码补丁必须包含位于 `tests/` 目录下的自动化单元测试用例[cite: 1]。
-* 未通过回归测试套件的代码严禁建议合并[cite: 1]。
+## Undo/Redo Requirements
+- All modifications must be undoable
+- Use `EditorUndoRedoManager` for Godot-side changes
+- Gateway-side changes must have rollback capability
+
+## Testing Requirements
+- Unit tests for all core services
+- Integration tests for API endpoints
+- Golden tests for import pipeline
+- Test fixtures in `tests/` directory
+
+## CI/CD Requirements
+- Run tests on every commit
+- Build verification for Godot plugins
+- Linting with clang-format
+- Security scanning for dependencies
+
+## Documentation Requirements
+- API documentation with OpenAPI/Swagger
+- Architecture documentation in `doc/`
+- Code comments for complex logic
+- Example projects for key workflows
+
+## Logging Requirements
+- Structured logging with JSON output
+- Include trace_id in all logs
+- Separate logs for different services
+- Log rotation and retention policies

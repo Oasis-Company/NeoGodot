@@ -1,14 +1,38 @@
-# 技术栈与开发风格约束
+# Tech Stack & Style Rules
 
-## 代码风格
-* 编写任何文档、代码注释或逻辑解释时，严禁使用比喻句。
-* 语言必须保持直接、准确且具有工程严谨性。
+## Coding Standards
+- Use GDScript 4.x syntax
+- Follow Godot's official style guide
+- Use 4-space indentation
+- File names: snake_case
+- Class names: PascalCase
+- Function names: snake_case
 
-## UI/UX 规范
-* Web 端组件优先采用 **CGS Stack** (Cloudflare, GitHub, Supabase)[cite: 2]。
-* UI 设计必须遵循 **Swiss Style**（瑞士风格），使用黑白配色方案，追求极致的简约质感[cite: 2]。
+## UI Guidelines
+- Follow Godot editor theme conventions
+- Use built-in Control nodes where possible
+- Prefer `add_dock()` for persistent panels
+- Use `EditorInterface` for editor integration
 
-## 并行 Agent 职责
-* **Planner**: 仅负责计划编译与风险标注[cite: 1]。
-* **Solver**: 负责具体的代码实现[cite: 1]。
-* **Critic**: 负责对产出进行安全审查与证据核对[cite: 1]。
+## Python Backend Standards
+- Use Python 3.11+
+- Use FastAPI for REST endpoints
+- Use Pydantic for data validation
+- Use async/await for all I/O operations
+
+## API Design Principles
+- REST endpoints under `/v1/` prefix
+- WebSocket for real-time events
+- JSON Schema for request/response validation
+- Error responses with `{"error": "...", "code": "..."}`
+
+## Versioning
+- API versioning via URL path
+- Schema versioning in request/response
+- Breaking changes require new version
+
+## Security Practices
+- Validate all inputs
+- Use HTTPS in production
+- Store secrets in environment variables
+- Rate limiting on all endpoints
