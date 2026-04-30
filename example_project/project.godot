@@ -1,0 +1,26 @@
+[gd_scene load_steps=2 format=3 uid="uid://b1q2w3e4r5t6y7u8i9o0p"]
+
+[application]
+config/name="NeoGodot Example Project"
+run/main_scene="res://scenes/main.tscn"
+config/icon="res://icon.svg"
+
+[editor_plugins]
+enabled=PoolStringArray( "res://addons/neo_ai/plugin.cfg" )
+
+[display]
+window/size/width=1280
+window/size/height=720
+window/title="NeoGodot AI Demo"
+
+[input]
+ui_accept={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey, "resource_local_to_scene":false, "resource_name":"", "device":0, "alt":false, "shift":false, "ctrl":false, "meta":false, "keycode":16777221, "physical_keycode":0, "unicode":0, "echo":false, "script":null)
+ ]
+}
+ui_cancel={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey, "resource_local_to_scene":false, "resource_name":"", "device":0, "alt":false, "shift":false, "ctrl":false, "meta":false, "keycode":16777216, "physical_keycode":0, "unicode":0, "echo":false, "script":null)
+ ]
+}
