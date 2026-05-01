@@ -1,0 +1,152 @@
+[gd_scene load_steps=10 format=3 uid="uid://neo_ai_main"]
+
+[ext_resource type="Script" path="res://addons/neo_ai/ui/neo_ai_main.gd" id="1"]
+
+[sub_resource type="StyleBoxFlat" id="2"]
+bg_color = Color(0.12, 0.12, 0.12)
+
+[sub_resource type="StyleBoxFlat" id="3"]
+bg_color = Color(0.18, 0.18, 0.18)
+
+[sub_resource type="StyleBoxFlat" id="4"]
+bg_color = Color(0.25, 0.25, 0.25)
+
+[sub_resource type="StyleBoxFlat" id="5"]
+bg_color = Color(0.3, 0.5, 0.3)
+
+[sub_resource type="StyleBoxFlat" id="6"]
+bg_color = Color(0.5, 0.5, 0.3)
+
+[sub_resource type="StyleBoxFlat" id="7"]
+bg_color = Color(0.5, 0.3, 0.3)
+
+[sub_resource type="StyleBoxFlat" id="8"]
+bg_color = Color(0.3, 0.3, 0.5)
+
+[sub_resource type="Theme" id="9"]
+panel_styles/panel = SubResource(2)
+button_styles/normal = SubResource(3)
+button_styles/hover = SubResource(4)
+
+[node name="NeoAIMain" type="PanelContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = SubResource(9)
+script = ExtResource(1)
+
+[node name="HSplitContainer" type="HSplitContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+split_offset = 400
+
+[node name="LeftPanel" type="VBoxContainer" parent="HSplitContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="PlanHeader" type="HBoxContainer" parent="HSplitContainer/LeftPanel"]
+size_flags_vertical = 1
+
+[node name="PlanTitle" type="Label" parent="HSplitContainer/LeftPanel/PlanHeader"]
+text = "Task Plan"
+custom_font_size = 16
+size_flags_horizontal = 3
+
+[node name="Toolbar" type="HBoxContainer" parent="HSplitContainer/LeftPanel/PlanHeader"]
+
+[node name="RegenerateBtn" type="Button" parent="HSplitContainer/LeftPanel/PlanHeader/Toolbar"]
+text = "Regen"
+custom_minimum_size = Vector2(60, 0)
+
+[node name="RunBtn" type="Button" parent="HSplitContainer/LeftPanel/PlanHeader/Toolbar"]
+text = "Run"
+custom_minimum_size = Vector2(60, 0)
+
+[node name="PauseBtn" type="Button" parent="HSplitContainer/LeftPanel/PlanHeader/Toolbar"]
+text = "Pause"
+custom_minimum_size = Vector2(60, 0)
+
+[node name="ExportBtn" type="Button" parent="HSplitContainer/LeftPanel/PlanHeader/Toolbar"]
+text = "Export"
+custom_minimum_size = Vector2(60, 0)
+
+[node name="PlanTree" type="Tree" parent="HSplitContainer/LeftPanel"]
+size_flags_vertical = 10
+
+[node name="RightPanel" type="VBoxContainer" parent="HSplitContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="DetailsHeader" type="HBoxContainer" parent="HSplitContainer/RightPanel"]
+size_flags_vertical = 1
+
+[node name="DetailsTitle" type="Label" parent="HSplitContainer/RightPanel/DetailsHeader"]
+text = "Task Details"
+custom_font_size = 16
+
+[node name="Separator1" type="HSeparator" parent="HSplitContainer/RightPanel"]
+
+[node name="TaskInfo" type="VBoxContainer" parent="HSplitContainer/RightPanel"]
+size_flags_vertical = 2
+
+[node name="TaskIDLabel" type="Label" parent="HSplitContainer/RightPanel/TaskInfo"]
+text = "Task ID: "
+
+[node name="TaskKindLabel" type="Label" parent="HSplitContainer/RightPanel/TaskInfo"]
+text = "Kind: "
+
+[node name="TaskStatusLabel" type="Label" parent="HSplitContainer/RightPanel/TaskInfo"]
+text = "Status: "
+
+[node name="TaskPriorityLabel" type="Label" parent="HSplitContainer/RightPanel/TaskInfo"]
+text = "Priority: "
+
+[node name="TaskRiskLabel" type="Label" parent="HSplitContainer/RightPanel/TaskInfo"]
+text = "Risk: "
+
+[node name="TaskCostLabel" type="Label" parent="HSplitContainer/RightPanel/TaskInfo"]
+text = "Est. Cost: $"
+
+[node name="Separator2" type="HSeparator" parent="HSplitContainer/RightPanel"]
+
+[node name="SuccessCriteria" type="VBoxContainer" parent="HSplitContainer/RightPanel"]
+size_flags_vertical = 2
+
+[node name="CriteriaLabel" type="Label" parent="HSplitContainer/RightPanel/SuccessCriteria"]
+text = "Success Criteria:"
+custom_font_size = 14
+
+[node name="CriteriaList" type="TextEdit" parent="HSplitContainer/RightPanel/SuccessCriteria"]
+size_flags_vertical = 3
+editable = false
+wrap_mode = 3
+
+[node name="Separator3" type="HSeparator" parent="HSplitContainer/RightPanel"]
+
+[node name="ExecutionLogs" type="VBoxContainer" parent="HSplitContainer/RightPanel"]
+size_flags_vertical = 3
+
+[node name="LogsLabel" type="Label" parent="HSplitContainer/RightPanel/ExecutionLogs"]
+text = "Execution Logs:"
+custom_font_size = 14
+
+[node name="LogsText" type="TextEdit" parent="HSplitContainer/RightPanel/ExecutionLogs"]
+size_flags_vertical = 5
+editable = false
+wrap_mode = 3
+
+[node name="Separator4" type="HSeparator" parent="HSplitContainer/RightPanel"]
+
+[node name="Actions" type="HBoxContainer" parent="HSplitContainer/RightPanel"]
+size_flags_vertical = 1
+
+[node name="ApproveBtn" type="Button" parent="HSplitContainer/RightPanel/Actions"]
+text = "Approve"
+size_flags_horizontal = 2
+
+[node name="RejectBtn" type="Button" parent="HSplitContainer/RightPanel/Actions"]
+text = "Reject"
+size_flags_horizontal = 1
+
+[node name="CloseBtn" type="Button" parent="HSplitContainer/RightPanel/Actions"]
+text = "Close"
+size_flags_horizontal = 1
