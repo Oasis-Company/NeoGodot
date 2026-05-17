@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeoGodot AI - UI Design Prototype</title>
+    <style>
+        :root {
+            /* Primary Colors - AI Blue */
+            --primary-50: #EFF6FF;
+            --primary-100: #DBEAFE;
+            --primary-400: #60A5FA;
+            --primary-500: #3B82F6;
+            --primary-600: #2563EB;
+            --primary-900: #1E3A8A;
+            
+            /* Accent Gradient */
+            --accent-start: #3B82F6;
+            --accent-end: #8B5CF6;
+            
+            /* Semantic Colors */
+            --success: #10B981;
+            --success-dark: #059669;
+            --warning: #F59E0B;
+            --warning-dark: #D97706;
+            --error: #EF4444;
+            --error-dark: #DC2626;
+            
+            /* Background */
+            --bg-base: #09090B;
+            --bg-surface: #18181B;
+            --bg-elevated: #27272A;
+            --bg-highlight: #3F3F46;
+            
+            /* Text */
+            --text-primary: #FAFAFA;
+            --text-secondary: #A1A1AA;
+            --text-muted: #71717A;
+            
+            /* Spacing */
+            --space-1: 4px;
+            --space-2: 8px;
+            --space-3: 12px;
+            --space-4: 16px;
+            --space-6: 24px;
+            --space-8: 32px;
+            
+            /* Border Radius */
+            --radius-sm: 4px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --radius-full: 9999px;
+            
+            /* Shadows */
+            --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.2);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
+            --shadow-glow: 0 0 20px rgba(59, 130, 246, 0.3);
+            
+            /* Transitions */
+            --transition-fast: 150ms ease-out;
+            --transition-normal: 250ms ease-out;
+            --transition-slow: 400ms ease-out;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
+            background: var(--bg-base);
+            color: var(--text-primary);
+            line-height: 1.5;
+            min-height: 100vh;
+            padding: var(--space-8);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        /* Header */
+        .header {
+            background: var(--bg-surface);
+            border: 1px solid var(--bg-highlight);
+            border-radius: var(--radius-lg);
+            padding: var(--space-6);
+            margin-bottom: var(--space-8);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+        }
+        
+        .header-logo {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--accent-start), var(--accent-end));
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            box-shadow: var(--shadow-glow);
+        }
+        
+        .header-title {
+            font-size: 20px;
+            font-weight: 600;
+            background: linear-gradient(135deg, var(--text-primary), var(--primary-400));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .header-status {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-2) var(--space-4);
+            background: var(--bg-elevated);
+            border-radius: var(--radius-full);
+            font-size: 14px;
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        
+        .status-dot.online {
+            background: var(--success);
+            box-shadow: 0 0 8px var(--success);
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        /* Main Content */
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-8);
+        }
+        
+        /* Panel */
+        .panel {
+            background: var(--bg-surface);
+            border: 1px solid var(--bg-highlight);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .panel-header {
+            padding: var(--space-4) var(--space-6);
+            border-bottom: 1px solid var(--bg-highlight);
+            background: var(--bg-elevated);
+        }
+        
+        .panel-tabs {
+            display: flex;
+            gap: var(--space-1);
+            padding: var(--space-2) var(--space-4);
+        }
+        
+        .tab {
+            padding: var(--space-2) var(--space-4);
+            background: transparent;
+            border: none;
+            border-radius: var(--radius-sm);
+            color: var(--text-muted);
+            font-size: 14px;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            position: relative;
+        }
+        
+        .tab:hover {
+            color: var(--text-secondary);
+            background: var(--bg-surface);
+        }
+        
+        .tab.active {
+            color: var(--text-primary);
+            background: rgba(59, 130, 246, 0.1);
+        }
+        
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: var(--space-2);
+            right: var(--space-2);
+            height: 2px;
+            background: var(--primary-500);
+            border-radius: 1px;
+        }
+        
+        .panel-body {
+            padding: var(--space-6);
+            height: 500px;
+            overflow-y: auto;
+        }
+        
+        /* Messages */
+        .message {
+            margin-bottom: var(--space-4);
+            animation: slideIn var(--transition-normal);
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .message-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-2);
+        }
+        
+        .message-author {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .message-time {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+        
+        .message-content {
+            padding: var(--space-4);
+            border-radius: var(--radius-lg);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        
+        .message.assistant .message-content {
+            background: var(--bg-surface);
+            border: 1px solid var(--bg-highlight);
+            border-radius: var(--radius-lg) var(--radius-lg) var(--radius-sm) var(--radius-lg);
+        }
+        
+        .message.user .message-content {
+            background: var(--bg-elevated);
+            border-radius: var(--radius-sm) var(--radius-lg) var(--radius-lg) var(--radius-lg);
+        }
+        
+        .message.system .message-content {
+            background: rgba(245, 158, 11, 0.1);
+            border-left: 3px solid var(--warning);
+            border-radius: var(--radius-md);
+        }
+        
+        /* Code Block */
+        .code-block {
+            background: var(--bg-base);
+            border-radius: var(--radius-md);
+            padding: var(--space-4);
+            margin-top: var(--space-3);
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 13px;
+            overflow-x: auto;
+            border: 1px solid var(--bg-highlight);
+        }
+        
+        .code-block .keyword { color: #C678DD; }
+        .code-block .string { color: #98C379; }
+        .code-block .function { color: #61AFEF; }
+        .code-block .comment { color: #5C6370; font-style: italic; }
+        
+        /* Input Area */
+        .input-area {
+            padding: var(--space-4) var(--space-6);
+            background: var(--bg-elevated);
+            border-top: 1px solid var(--bg-highlight);
+        }
+        
+        .input-row {
+            display: flex;
+            gap: var(--space-3);
+            align-items: center;
+        }
+        
+        .input-select {
+            background: var(--bg-surface);
+            border: 1px solid var(--bg-highlight);
+            border-radius: var(--radius-md);
+            padding: var(--space-2) var(--space-4);
+            color: var(--text-primary);
+            font-size: 14px;
+            cursor: pointer;
+            min-width: 100px;
+        }
+        
+        .input-field {
+            flex: 1;
+            background: var(--bg-surface);
+            border: 1px solid var(--bg-highlight);
+            border-radius: var(--radius-md);
+            padding: var(--space-3) var(--space-4);
+            color: var(--text-primary);
+            font-size: 14px;
+            outline: none;
+            transition: all var(--transition-fast);
+        }
+        
+        .input-field:focus {
+            border-color: var(--primary-500);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+        }
+        
+        .input-field::placeholder {
+            color: var(--text-muted);
+        }
+        
+        .btn {
+            padding: var(--space-3) var(--space-6);
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            border: none;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-start), var(--accent-end));
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-glow);
+        }
+        
+        .btn-primary:active {
+            transform: scale(0.98);
+        }
+        
+        .btn-secondary {
+            background: var(--bg-surface);
+            color: var(--text-secondary);
+            border: 1px solid var(--bg-highlight);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--bg-elevated);
+            color: var(--text-primary);
+        }
+        
+        /* Quick Actions */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-4);
+        }
+        
+        .quick-action {
+            background: var(--bg-elevated);
+            border: 1px solid var(--bg-highlight);
+            border-radius: var(--radius-md);
+            padding: var(--space-6);
+            text-align: center;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+        
+        .quick-action:hover {
+            background: var(--bg-surface);
+            border-color: var(--primary-500);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-glow);
+        }
+        
+        .quick-action-icon {
+            font-size: 32px;
+            margin-bottom: var(--space-3);
+        }
+        
+        .quick-action-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: var(--space-1);
+        }
+        
+        .quick-action-desc {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+        
+        /* Progress Bar */
+        .progress-bar {
+            height: 4px;
+            background: var(--bg-elevated);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-top: var(--space-4);
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-start), var(--accent-end));
+            border-radius: 2px;
+            animation: progress 2s ease-in-out infinite;
+        }
+        
+        @keyframes progress {
+            0% { width: 0%; }
+            50% { width: 70%; }
+            100% { width: 100%; }
+        }
+        
+        /* Title Section */
+        .section-title {
+            text-align: center;
+            margin-bottom: var(--space-8);
+        }
+        
+        .section-title h1 {
+            font-size: 32px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--text-primary), var(--primary-400));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: var(--space-3);
+        }
+        
+        .section-title p {
+            color: var(--text-secondary);
+            font-size: 16px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        /* Color Palette */
+        .color-palette {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: var(--space-4);
+            margin-top: var(--space-6);
+        }
+        
+        .color-swatch {
+            text-align: center;
+        }
+        
+        .color-circle {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin: 0 auto var(--space-2);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .color-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+        
+        /* Features */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-6);
+            margin-top: var(--space-8);
+        }
+        
+        .feature-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--bg-highlight);
+            border-radius: var(--radius-lg);
+            padding: var(--space-6);
+            text-align: center;
+        }
+        
+        .feature-icon {
+            font-size: 40px;
+            margin-bottom: var(--space-4);
+        }
+        
+        .feature-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: var(--space-2);
+        }
+        
+        .feature-desc {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Title -->
+        <div class="section-title">
+            <h1>🎨 NeoGodot AI UI 重构设计</h1>
+            <p>基于 "NeoStudio Dark" 设计系统，打造现代化、专业化的游戏开发 AI 助手界面</p>
+        </div>
+        
+        <!-- Color Palette -->
+        <div class="panel" style="margin-bottom: 32px;">
+            <div class="panel-header">
+                <h2 style="font-size: 18px; font-weight: 600;">🎨 色彩系统</h2>
+            </div>
+            <div class="panel-body">
+                <div class="color-palette">
+                    <div class="color-swatch">
+                        <div class="color-circle" style="background: linear-gradient(135deg, #3B82F6, #8B5CF6);"></div>
+                        <div class="color-label">Primary Gradient</div>
+                    </div>
+                    <div class="color-swatch">
+                        <div class="color-circle" style="background: #10B981;"></div>
+                        <div class="color-label">Success</div>
+                    </div>
+                    <div class="color-swatch">
+                        <div class="color-circle" style="background: #F59E0B;"></div>
+                        <div class="color-label">Warning</div>
+                    </div>
+                    <div class="color-swatch">
+                        <div class="color-circle" style="background: #EF4444;"></div>
+                        <div class="color-label">Error</div>
+                    </div>
+                    <div class="color-swatch">
+                        <div class="color-circle" style="background: #18181B; border: 1px solid #3F3F46;"></div>
+                        <div class="color-label">Surface</div>
+                    </div>
+                    <div class="color-swatch">
+                        <div class="color-circle" style="background: #FAFAFA;"></div>
+                        <div class="color-label">Text Primary</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main UI Preview -->
+        <div class="main-content">
+            <!-- Chat Interface -->
+            <div class="panel">
+                <div class="panel-header">
+                    <div class="header-brand">
+                        <div class="header-logo">🤖</div>
+                        <span class="header-title">NeoGodot AI</span>
+                    </div>
+                    <div class="header-status">
+                        <span class="status-dot online"></span>
+                        <span>在线</span>
+                    </div>
+                </div>
+                
+                <div class="panel-tabs">
+                    <button class="tab active">💬 对话</button>
+                    <button class="tab">⚡ 快速生成</button>
+                    <button class="tab">📜 历史</button>
+                </div>
+                
+                <div class="panel-body">
+                    <!-- AI Message -->
+                    <div class="message assistant">
+                        <div class="message-header">
+                            <span class="message-author">
+                                🤖 AI 助手
+                            </span>
+                            <span class="message-time">10:30</span>
+                        </div>
+                        <div class="message-content">
+                            你好！我是 NeoGodot AI 助手。我可以帮助你：
+                            <br>• 生成 GDScript 代码
+                            <br>• 创建游戏场景结构
+                            <br>• 生成 UI 界面
+                            <br>• 编写着色器效果
+                        </div>
+                    </div>
+                    
+                    <!-- User Message -->
+                    <div class="message user">
+                        <div class="message-header">
+                            <span class="message-author">
+                                👤 你
+                            </span>
+                            <span class="message-time">10:31</span>
+                        </div>
+                        <div class="message-content">
+                            生成一个简单的 2D 玩家控制器，包含移动和跳跃功能
+                        </div>
+                    </div>
+                    
+                    <!-- AI Response with Code -->
+                    <div class="message assistant">
+                        <div class="message-header">
+                            <span class="message-author">
+                                🤖 AI 助手
+                            </span>
+                            <span class="message-time">10:31</span>
+                        </div>
+                        <div class="message-content">
+                            已为你生成 2D 玩家控制器代码：
+                            <div class="code-block">
+<span class="keyword">extends</span> CharacterBody2D<br><br>
+<span class="keyword">class_name</span> Player<br><br>
+<span class="comment"># Movement settings</span>
+<span class="keyword">@export</span> <span class="keyword">var</span> speed: <span class="function">float</span> = <span class="string">300.0</span>
+<span class="keyword">@export</span> <span class="keyword">var</span> jump_force: <span class="function">float</span> = <span class="string">-400.0</span><br><br>
+<span class="keyword">func</span> <span class="function">_physics_process</span>(delta: <span class="function">float</span>) -> <span class="keyword">void</span>:
+    <span class="comment"># Apply gravity</span>
+    velocity.y += gravity * delta<br>
+    <span class="comment"># Handle jump</span>
+    <span class="keyword">if</span> Input.<span class="function">is_action_just_pressed</span>(<span class="string">"jump"</span>):
+        velocity.y = jump_force<br>
+    <span class="comment"># Movement</span>
+    velocity.x = <span class="keyword">0</span>
+    <span class="keyword">if</span> Input.<span class="function">is_action_pressed</span>(<span class="string">"move_left"</span>):
+        velocity.x = -speed
+    <span class="keyword">if</span> Input.<span class="function">is_action_pressed</span>(<span class="string">"move_right"</span>):
+        velocity.x = speed<br>
+    <span class="function">move_and_slide</span>()
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="input-area">
+                    <div class="input-row">
+                        <select class="input-select">
+                            <option>💬 文本</option>
+                            <option>📝 脚本</option>
+                            <option>🎨 图像</option>
+                        </select>
+                        <input type="text" class="input-field" placeholder="输入你的需求..." />
+                        <button class="btn btn-primary">发送</button>
+                    </div>
+                    <div class="progress-bar" style="display: none;">
+                        <div class="progress-fill"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Quick Actions -->
+            <div class="panel">
+                <div class="panel-header">
+                    <h2 style="font-size: 18px; font-weight: 600;">⚡ 快速生成</h2>
+                </div>
+                <div class="panel-body">
+                    <div class="quick-actions">
+                        <div class="quick-action">
+                            <div class="quick-action-icon">🎮</div>
+                            <div class="quick-action-title">角色脚本</div>
+                            <div class="quick-action-desc">玩家、NPC、敌人控制器</div>
+                        </div>
+                        <div class="quick-action">
+                            <div class="quick-action-icon">🗺️</div>
+                            <div class="quick-action-title">游戏场景</div>
+                            <div class="quick-action-desc">关卡、地图、房间结构</div>
+                        </div>
+                        <div class="quick-action">
+                            <div class="quick-action-icon">🖼️</div>
+                            <div class="quick-action-title">UI 界面</div>
+                            <div class="quick-action-desc">菜单、 HUD 、对话框</div>
+                        </div>
+                        <div class="quick-action">
+                            <div class="quick-action-icon">✨</div>
+                            <div class="quick-action-title">着色器</div>
+                            <div class="quick-action-desc">视觉效果、特效、滤镜</div>
+                        </div>
+                    </div>
+                    
+                    <!-- System Message Example -->
+                    <div class="message system" style="margin-top: 24px;">
+                        <div class="message-header">
+                            <span class="message-author">⚠️ 系统提示</span>
+                        </div>
+                        <div class="message-content">
+                            请先在设置中配置你的 API Key，才能使用 AI 生成功能。
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Features -->
+        <div class="features">
+            <div class="feature-card">
+                <div class="feature-icon">🎨</div>
+                <div class="feature-title">现代化设计</div>
+                <div class="feature-desc">采用深色主题，AI 蓝紫渐变，清晰的视觉层次</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">✨</div>
+                <div class="feature-title">流畅动效</div>
+                <div class="feature-desc">平滑的过渡动画，微交互反馈，提升用户体验</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📱</div>
+                <div class="feature-title">响应式布局</div>
+                <div class="feature-desc">适配不同屏幕尺寸，自适应面板大小</div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Tab switching
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+        
+        // Quick actions
+        document.querySelectorAll('.quick-action').forEach(action => {
+            action.addEventListener('click', function() {
+                const title = this.querySelector('.quick-action-title').textContent;
+                document.querySelector('.input-field').value = `生成一个${title}代码`;
+                document.querySelector('.input-field').focus();
+            });
+        });
+    </script>
+</body>
+</html>
