@@ -1,6 +1,7 @@
 from pydantic import BaseModel, Field
-from typing import Optional, Dict, Any
+from typing import Optional, Dict, Any, List
 from datetime import datetime
+import time
 
 
 class GenerateResponse(BaseModel):
@@ -18,10 +19,18 @@ class ImageGenerateResponse(BaseModel):
     error: Optional[str] = Field(None, description="Error message if failed")
 
 
+class DependencyStatus(BaseModel):
+    name: str = Field(..., description="Dependency name")
+    status: str = Field(..., description="Status: connected, disconnected, not_configured")
+    model: Optional[str] = Field(None, description="Model name if configured")
+
+
 class HealthResponse(BaseModel):
     status: str = Field(..., description="Service health status")
     version: str = Field(..., description="Service version")
     timestamp: datetime = Field(default_factory=datetime.utcnow, description="Health check timestamp")
+    uptime: float = Field(default=0.0, description="Service uptime in seconds")
+    providers: List[DependencyStatus] = Field(default_factory=list, description="AI providers status")
 
 
 class ErrorResponse(BaseModel):

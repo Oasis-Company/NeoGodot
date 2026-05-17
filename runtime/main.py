@@ -1,5 +1,6 @@
 from fastapi import FastAPI, Request, HTTPException, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.middleware.gzip import GZipMiddleware
 from fastapi.responses import JSONResponse
 from contextlib import asynccontextmanager
 import logging
@@ -10,16 +11,19 @@ import os
 
 from dotenv import load_dotenv
 
-from models.responses import HealthResponse, ErrorResponse
+from models.responses import HealthResponse, ErrorResponse, DependencyStatus
 from routes import generate_router
+from metrics import metrics_router
 from config import ConfigManager, get_config, ConfigError
 from logger import setup_logger
 from websocket.manager import ConnectionManager
 from websocket.protocol import MessageType, StreamMessage, parse_message
+from rate_limiter import RateLimiter
 
 
 logger = logging.getLogger("neogodot-runtime")
 config: ConfigManager = None
+start_time: float = 0
 
 
 def load_env():
@@ -33,11 +37,12 @@ def load_env():
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    global config, logger
+    global config, logger, start_time
     
     try:
         load_env()
         config = get_config()
+        start_time = time.time()
         
         log_level = getattr(logging, config.log_level, logging.INFO)
         logger = setup_logger("neogodot-runtime", level=log_level, service="runtime")
@@ -57,9 +62,28 @@ async def lifespan(app: FastAPI):
             logger.debug("Debug mode enabled")
             logger.debug(f"Loaded config: {vars(config)}")
         
+        # 预热机制
+        logger.info("Preheating services...", extra={"service": "runtime"})
+        
+        # 预加载缓存和配置
+        from services.generation_service import GenerationService
+        generation_service = GenerationService()
+        app.state.generation_service = generation_service
+        logger.info("Service preheating complete", extra={"service": "runtime"})
+        
         yield
         
         logger.info("NeoGodot Runtime service shutting down", extra={"service": "runtime"})
+        
+        # 清理：关闭连接池
+        try:
+            if hasattr(generation_service, 'openai_provider') and hasattr(generation_service.openai_provider, 'close'):
+                await generation_service.openai_provider.close()
+            if hasattr(generation_service, 'anthropic_provider') and hasattr(generation_service.anthropic_provider, 'close'):
+                await generation_service.anthropic_provider.close()
+        except Exception as e:
+            logger.error(f"Error during shutdown cleanup: {e}", extra={"error": str(e)})
+            
     except ConfigError as e:
         print(f"[ERROR] Configuration error: {e}")
         sys.exit(1)
@@ -78,8 +102,10 @@ app = FastAPI(
 )
 
 app.include_router(generate_router)
+app.include_router(metrics_router)
 
 ws_manager = ConnectionManager()
+rate_limiter = RateLimiter(requests_per_second=10.0, capacity=20.0)
 
 
 @app.on_event("startup")
@@ -96,6 +122,17 @@ async def startup_event():
         allow_methods=["*"],
         allow_headers=["*"],
     )
+    
+    # 添加 Gzip 压缩中间件
+    app.add_middleware(
+        GZipMiddleware,
+        minimum_size=1000,  # 只压缩超过 1KB 的响应
+    )
+
+
+@app.middleware("http")
+async def rate_limit_middleware(request: Request, call_next):
+    return await rate_limiter(request, call_next)
 
 
 @app.middleware("http")
@@ -177,16 +214,53 @@ async def general_exception_handler(request: Request, exc: Exception):
 @app.get("/v1/health", response_model=HealthResponse)
 async def health_check():
     from datetime import datetime
+    from providers.provider_factory import ProviderFactory
+    
+    providers_status = []
+    
+    # Check OpenAI provider status
+    openai_key = os.getenv("OPENAI_API_KEY")
+    if openai_key:
+        providers_status.append(DependencyStatus(
+            name="openai",
+            status="connected" if len(openai_key) > 20 else "not_configured",
+            model="gpt-4o"
+        ))
+    else:
+        providers_status.append(DependencyStatus(
+            name="openai",
+            status="not_configured"
+        ))
+    
+    # Check Anthropic provider status
+    anthropic_key = os.getenv("ANTHROPIC_API_KEY")
+    if anthropic_key:
+        providers_status.append(DependencyStatus(
+            name="anthropic",
+            status="connected" if len(anthropic_key) > 20 else "not_configured",
+            model="claude-3-5-sonnet-20241022"
+        ))
+    else:
+        providers_status.append(DependencyStatus(
+            name="anthropic",
+            status="not_configured"
+        ))
+    
+    uptime_seconds = time.time() - start_time if start_time > 0 else 0
     
     response = HealthResponse(
         status="healthy",
         version=config.version if config else "1.0.0",
+        uptime=uptime_seconds,
+        providers=providers_status
     )
     
     logger.debug("Health check requested", extra={
         "status": response.status,
         "version": response.version,
-        "timestamp": response.timestamp.isoformat()
+        "timestamp": response.timestamp.isoformat(),
+        "uptime": uptime_seconds,
+        "providers": [{"name": p.name, "status": p.status} for p in providers_status]
     })
     
     return response

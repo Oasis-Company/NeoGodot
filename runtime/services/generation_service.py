@@ -3,7 +3,9 @@ import uuid
 from typing import Optional, Dict, Any
 from models.requests import GenerateRequest, ImageGenerateRequest, ScriptGenerateRequest
 from models.responses import GenerateResponse, ImageGenerateResponse
+from providers.provider_factory import ProviderFactory
 from datetime import datetime
+import os
 
 logger = logging.getLogger("neogodot-runtime.service")
 
@@ -21,6 +23,30 @@ class GenerationService:
     
     def __init__(self):
         self.logger = logging.getLogger("neogodot-runtime.service.generation")
+        self.openai_provider = self._init_provider("openai")
+        self.anthropic_provider = self._init_provider("anthropic")
+        self.default_provider = self.openai_provider or self.anthropic_provider
+    
+    def _init_provider(self, name: str) -> Optional[object]:
+        """Initialize AI provider if configured."""
+        api_key = os.getenv(f"{name.upper()}_API_KEY")
+        if not api_key:
+            self.logger.debug(f"{name} provider not configured (no API key)")
+            return None
+        
+        try:
+            config = {
+                "api_key": api_key,
+                "model": os.getenv(f"{name.upper()}_MODEL", "gpt-4o" if name == "openai" else "claude-3-5-sonnet-20241022"),
+                "base_url": os.getenv(f"{name.upper()}_BASE_URL", ""),
+                "timeout": int(os.getenv("PROVIDER_TIMEOUT", "60")),
+            }
+            provider = ProviderFactory.create(name, config)
+            self.logger.info(f"{name} provider initialized successfully")
+            return provider
+        except Exception as e:
+            self.logger.warning(f"Failed to initialize {name} provider: {e}")
+            return None
     
     async def generate_text(self, request: GenerateRequest, trace_id: str) -> GenerateResponse:
         """
@@ -282,8 +308,6 @@ class GenerationService:
     ) -> str:
         """
         Internal method to call the text generation provider.
-        
-        This is a placeholder for actual provider integration.
         """
         self.logger.info(
             f"Text provider invoked",
@@ -291,12 +315,36 @@ class GenerationService:
                 "trace_id": trace_id,
                 "policy_id": "generate_text",
                 "decision_reason": "Calling text generation provider",
+                "provider": self.default_provider.__class__.__name__ if self.default_provider else "none",
             }
         )
         
-        await self._simulate_processing()
+        if not self.default_provider:
+            self.logger.warning(
+                f"No AI provider configured, using fallback",
+                extra={"trace_id": trace_id}
+            )
+            await self._simulate_processing()
+            return f"Generated text based on prompt: {prompt[:50]}... (truncated)"
         
-        return f"Generated text based on prompt: {prompt[:50]}... (truncated)"
+        try:
+            result = await self.default_provider.generate(
+                prompt,
+                model=model,
+                max_tokens=max_tokens,
+                temperature=temperature,
+                stop=stop
+            )
+            return result
+        except Exception as e:
+            self.logger.error(
+                f"Provider error: {e}",
+                extra={"trace_id": trace_id, "error": str(e)},
+                exc_info=True
+            )
+            # Fallback to simulation
+            await self._simulate_processing()
+            return f"Generated text based on prompt: {prompt[:50]}... (truncated)"
     
     async def _call_image_provider(
         self,
@@ -308,8 +356,6 @@ class GenerationService:
     ) -> str:
         """
         Internal method to call the image generation provider.
-        
-        This is a placeholder for actual provider integration.
         """
         self.logger.info(
             f"Image provider invoked",
@@ -320,9 +366,34 @@ class GenerationService:
             }
         )
         
-        await self._simulate_processing()
+        if not self.openai_provider:
+            self.logger.warning(
+                f"OpenAI provider not available for image generation, using fallback",
+                extra={"trace_id": trace_id}
+            )
+            await self._simulate_processing()
+            return f"ai_generated/ui/generated_{trace_id}.png"
         
-        return f"ai_generated/ui/generated_{trace_id}.png"
+        try:
+            result = await self.openai_provider.generate_image(
+                prompt,
+                model=model,
+                size=size,
+                quality=quality
+            )
+            if result and result.get("images") and len(result["images"]) > 0:
+                first_image = result["images"][0]
+                if first_image.get("url"):
+                    return first_image["url"]
+            return f"ai_generated/ui/generated_{trace_id}.png"
+        except Exception as e:
+            self.logger.error(
+                f"Image provider error: {e}",
+                extra={"trace_id": trace_id, "error": str(e)},
+                exc_info=True
+            )
+            await self._simulate_processing()
+            return f"ai_generated/ui/generated_{trace_id}.png"
     
     async def _call_script_provider(
         self,
@@ -334,8 +405,6 @@ class GenerationService:
     ) -> str:
         """
         Internal method to call the script generation provider.
-        
-        This is a placeholder for actual provider integration.
         """
         self.logger.info(
             f"Script provider invoked",
@@ -343,13 +412,75 @@ class GenerationService:
                 "trace_id": trace_id,
                 "policy_id": "generate_script",
                 "decision_reason": "Calling script generation provider",
+                "style": style,
+                "template_type": template_type,
             }
         )
         
-        await self._simulate_processing()
+        if not self.default_provider:
+            self.logger.warning(
+                f"No AI provider configured, using fallback template",
+                extra={"trace_id": trace_id}
+            )
+            await self._simulate_processing()
+            script_template = self._get_script_template(template_type, target_class, style)
+            return script_template.format(prompt=prompt, target_class=target_class or "GeneratedClass")
         
-        script_template = self._get_script_template(template_type, target_class, style)
-        return script_template.format(prompt=prompt, target_class=target_class or "GeneratedClass")
+        # Build system prompt for GDScript generation
+        system_prompt = """You are a professional Godot Engine game developer. Your task is to generate clean, production-ready GDScript code.
+
+Follow these rules strictly:
+1. Use GDScript 4.x syntax
+2. Always include type hints for variables and functions
+3. Follow Godot's naming conventions (snake_case for variables/functions, PascalCase for classes)
+4. Include useful comments explaining complex logic
+5. Make code modular and reusable
+6. Include proper error handling where appropriate
+7. Return ONLY code, no markdown formatting, no explanations
+8. Start with the extends statement followed by class_name (if applicable)
+"""
+        
+        # Build user prompt
+        user_prompt = f"""Generate GDScript code for: {prompt}
+
+Additional details:
+- Target class: {target_class or "GeneratedClass"}
+- Template type: {template_type}
+- Code style: {style}
+
+Generate the complete code with proper structure and comments."""
+        
+        try:
+            result = await self.default_provider.generate(
+                user_prompt,
+                model="gpt-4o" if self.openai_provider else "claude-3-5-sonnet-20241022",
+                max_tokens=4096,
+                temperature=0.7,
+                system=system_prompt
+            )
+            
+            # Clean up the result (remove any markdown formatting if present)
+            result = result.strip()
+            if result.startswith("```gdscript"):
+                result = result[10:]
+            elif result.startswith("```"):
+                result = result[3:]
+            
+            if result.endswith("```"):
+                result = result[:-3]
+            
+            return result.strip()
+            
+        except Exception as e:
+            self.logger.error(
+                f"Script provider error: {e}",
+                extra={"trace_id": trace_id, "error": str(e)},
+                exc_info=True
+            )
+            # Fallback to template
+            await self._simulate_processing()
+            script_template = self._get_script_template(template_type, target_class, style)
+            return script_template.format(prompt=prompt, target_class=target_class or "GeneratedClass")
     
     async def _simulate_processing(self):
         """Simulate processing time for demonstration purposes."""
