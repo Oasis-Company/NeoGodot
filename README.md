@@ -4,7 +4,7 @@
 
 # NeoGodot
 
-> 基于 Godot Engine 的 AI 增强游戏引擎，让游戏开发更智能。
+> AI-enhanced game engine based on Godot Engine, making game development smarter.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Godot Version](https://img.shields.io/badge/Godot-4.x-blue)](https://godotengine.org/)
@@ -14,125 +14,127 @@
 
 ---
 
-## ✨ 特性
+## ✨ Features
 
-### 🎮 Godot 原生功能
-- 完整保留 Godot Engine 的所有强大能力
-- 统一的 2D 和 3D 开发界面
-- 跨平台导出支持
-- GDScript、C#、C++ 多语言支持
+### 🎮 Godot Native Features
+- Complete Godot Engine capabilities preserved
+- Unified 2D and 3D development interface
+- Cross-platform export support
+- GDScript, C#, C++ multi-language support
 
-### 🤖 AI 增强功能
-- **AI 助手集成** - 内置 AI 助手面板
-- **智能代码生成** - 通过自然语言生成 GDScript
-- **场景和资源生成** - 自动创建游戏资源
-- **撤销/重做支持** - 所有 AI 操作可撤销
-- **配置管理** - 灵活的自定义配置
+### 🤖 AI Enhanced Features
+- **AI Assistant Integration** - Built-in AI assistant panel
+- **Smart Code Generation** - Generate GDScript via natural language
+- **Scene and Resource Generation** - Auto-create game assets
+- **Undo/Redo Support** - All AI actions are undoable
+- **Configuration Management** - Flexible custom configuration
 
 ### 🔌 Runtime Gateway
-- FastAPI 后端服务
-- RESTful API 和 WebSocket 支持
-- 多 AI 提供商集成
-- 健康检查和监控
+- FastAPI backend service
+- RESTful API and WebSocket support
+- Multi-AI provider integration
+- Health check and monitoring
 
 ---
 
-## 🚀 快速开始
+## 🚀 Quick Start
 
-### 前置要求
+### Prerequisites
 
-- Godot 4.x 编辑器
+- Godot 4.x editor
 - Python 3.9+
 
-### 安装
+### Installation
 
 ```bash
-# 1. 克隆仓库
+# 1. Clone the repository
 git clone https://github.com/yourusername/neogodot.git
 cd neogodot
 
-# 2. 安装并启动 Runtime Gateway
+# 2. Install and start Runtime Gateway
 cd runtime
 pip install -r requirements.txt
 cp .env.example .env
-# 编辑 .env 配置 API Key
+# Edit .env to configure API Key
 python main.py
 ```
 
-### 使用插件
+### Using the Plugin
 
-1. 将 `addons/neo_godot/` 复制到 Godot 项目
-2. 在 Godot 编辑器中启用插件
-3. 点击 NeoGodot 配置按钮连接 Gateway
-4. 开始使用 AI 助手！
+1. Copy `addons/neo_godot/` to your Godot project
+2. Enable the plugin in Godot Editor
+3. Click the NeoGodot config button to connect Gateway
+4. Start using the AI assistant!
 
-详细指南请查看 [QuickStart](docs/QuickStart.md)。
-
----
-
-## 📖 文档
-
-- [📚 文档中心](docs/README.md)
-- [🚀 快速开始](docs/QuickStart.md)
-- [📦 安装指南](docs/INSTALLATION.md)
-- [🏗️ 架构说明](docs/ARCHITECTURE.md)
-- [📋 API 参考](docs/API_REFERENCE.md)
-- [💡 常见问题](docs/FAQ.md)
-- [🔧 故障排除](docs/TROUBLESHOOTING.md)
+Detailed guide: [Quick Start](QuickStart.md).
 
 ---
 
-## 📂 项目结构
+## 📖 Documentation
+
+- [📚 Documentation Center](docs/README.md)
+- [🚀 Quick Start](QuickStart.md)
+- [📦 Installation Guide](docs/INSTALLATION.md)
+- [🏗️ Architecture Overview](ARCHITECTURE.md)
+- [📋 API Reference](docs/API_REFERENCE.md)
+- [🤖 AI Documentation](docs/ai/README.md) - Documentation specifically for AI systems
+- [💡 FAQ](FAQ.md)
+- [🔧 Troubleshooting](TROUBLESHOOTING.md)
+
+---
+
+## 📂 Project Structure
 
 ```
 neogodot/
-├── addons/neo_godot/        # Godot 插件
-│   ├── plugin.gd            # 插件主脚本
-│   ├── autoload/            # 自动加载
-│   ├── ui/                  # UI 组件
-│   ├── commands/            # 命令系统
+├── addons/neo_godot/  # Godot plugin
+│   ├── plugin.gd      # Plugin main script
+│   ├── autoload/      # Autoloads
+│   ├── ui/            # UI components
+│   ├── commands/        # Command system
 │   └── ...
-├── runtime/                 # Python 服务
-│   ├── main.py              # 入口
+├── runtime/           # Python service
+│   ├── main.py        # Entry point
 │   └── ...
-├── assets/                  # 资源文件
-├── docs/                    # 文档
-└── ai_generated/            # AI 生成资源
+├── assets/            # Assets
+├── docs/              # Documentation
+├── docs/ai/          # AI-specific documentation
+└── ai_generated/      # AI-generated assets
 ```
 
 ---
 
-## 🤝 贡献
+## 🤝 Contributing
 
-我们欢迎所有形式的贡献！请查看：
+We welcome all forms of contribution! Please see:
 
-- [CONTRIBUTING.md](CONTRIBUTING.md) - 贡献指南
-- [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) - 行为准则
+- [CONTRIBUTING.md](CONTRIBUTING.md) - Contribution guide
+- [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) - Code of conduct
 
-### 快速贡献流程：
+### Quick contribution flow:
 
-1. Fork 这个仓库
-2. 创建功能分支 (`git checkout -b feature/AmazingFeature`)
-3. 提交变更 (`git commit -m 'feat: 添加了一个新功能'`)
-4. 推送到分支 (`git push origin feature/AmazingFeature`)
-5. 开启 Pull Request
-
----
-
-## 📄 许可证
-
-本项目基于 [MIT License](LICENSE.txt) 开源。
+1. Fork this repository
+2. Create feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit changes (`git commit -m 'feat: add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
 ---
 
-## 🙏 致谢
+## 📄 License
 
-- 感谢 [Godot Engine](https://godotengine.org/) 社区
-- 感谢所有贡献者
+This project is open source under the [MIT License](LICENSE.txt).
+
+---
+
+## 🙏 Acknowledgments
+
+- Thanks to the [Godot Engine](https://godotengine.org/) community
+- Thanks to all contributors
 
 ---
 
 <p align="center">
   <b>Made with 💖 for game developers</b><br>
-  NeoGodot - 让游戏开发更智能 🚀
+  NeoGodot - Making game development smarter 🚀
 </p>

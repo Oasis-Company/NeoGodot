@@ -1,54 +1,54 @@
-# 路线图
+# Roadmap
 
-本文档列出 NeoGodot 项目的未来计划和发展方向。
+This document outlines future plans and direction for the NeoGodot project.
 
-## 已完成 ✅
+## Completed ✅
 
-- 完整的插件基础架构
-- Runtime Gateway 核心功能
-- API 和 WebSocket 支持
-- 撤销/重做功能
-- 完整文档体系
-- 专业的仓库结构
+- Complete plugin infrastructure
+- Runtime Gateway core functionality
+- API and WebSocket support
+- Undo/Redo functionality
+- Complete documentation system
+- Professional repository structure
 
-## 短期计划
+## Short-term Plans
 
 ### v0.2.0
 
-- [ ] 更多 AI 提供商集成
-- [ ] 更丰富的代码生成模板
-- [ ] UI 改进和优化
-- [ ] 更好的错误处理
+- [ ] More AI provider integrations
+- [ ] Richer code generation templates
+- [ ] UI improvements and optimizations
+- [ ] Better error handling
 
-## 中期计划
+## Mid-term Plans
 
 ### v0.3.0 - v0.5.0
 
-- [ ] 真实示例项目
-- [ ] 教程和视频
-- [ ] 插件市场集成
-- [ ] 社区模板库
-- [ ] 性能优化
-- [ ] 单元测试覆盖
+- [ ] Real example projects
+- [ ] Tutorials and videos
+- [ ] Plugin marketplace integration
+- [ ] Community template library
+- [ ] Performance optimization
+- [ ] Unit test coverage
 
-## 长期愿景
+## Long-term Vision
 
 ### v1.0.0
 
-- [ ] 稳定的 API
-- [ ] 完整功能套件
-- [ ] 大型项目验证
-- [ ] 多语言文档
-- [ ] 在线配置面板
+- [ ] Stable API
+- [ ] Complete feature suite
+- [ ] Large project validation
+- [ ] Multi-language documentation
+- [ ] Online configuration panel
 
-## 期待的功能
+## Desired Features
 
-- 智能场景生成
-- 纹理优化和生成
-- 游戏平衡 AI 助手
-- 代码补全和优化建议
-- 自动化测试生成
+- Smart scene generation
+- Texture optimization and generation
+- Game balance AI assistant
+- Code completion and optimization suggestions
+- Automated test generation
 
-## 反馈
+## Feedback
 
-我们很期待听到你的想法！你希望看到哪些功能？请创建 Issue 告诉我们。
+We'd love to hear your thoughts! What features would you like to see? Create an Issue and let us know.

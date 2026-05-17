@@ -1,20 +1,21 @@
-# 文档中心
+# Documentation Center
 
-欢迎使用 NeoGodot 文档！
+Welcome to the NeoGodot documentation!
 
-## 文档导航
+## Documentation Navigation
 
-- [快速开始](QuickStart.md) - 快速上手指南
-- [安装指南](INSTALLATION.md) - 详细安装说明
-- [架构说明](ARCHITECTURE.md) - 技术架构详解
-- [API 参考](API_REFERENCE.md) - Runtime Gateway API 文档
-- [开发指南](DEVELOPMENT.md) - 为项目做贡献的指南
-- [常见问题](FAQ.md) - 常见问题解答
-- [故障排除](TROUBLESHOOTING.md) - 遇到问题时的帮助
+- [Quick Start](../QuickStart.md) - Quick start guide
+- [Installation Guide](INSTALLATION.md) - Detailed installation instructions
+- [Architecture Overview](../ARCHITECTURE.md) - Technical architecture deep dive
+- [API Reference](API_REFERENCE.md) - Runtime Gateway API documentation
+- [Development Guide](DEVELOPMENT.md) - Guide for contributing to the project
+- [FAQ](../FAQ.md) - Frequently asked questions
+- [Troubleshooting](../TROUBLESHOOTING.md) - Help when you encounter issues
+- [AI Documentation](ai/README.md) - Documentation specifically for AI systems
 
-## 相关链接
+## Related Links
 
-- [NeoGodot 主文档](../README.md)
-- [Runtime Gateway 文档](../runtime/README.md)
-- [更新日志](../CHANGELOG.md)
-- [路线图](ROADMAP.md)
+- [NeoGodot Main Readme](../README.md)
+- [Runtime Gateway Docs](../runtime/README.md)
+- [Changelog](../CHANGELOG.md)
+- [Roadmap](ROADMAP.md)

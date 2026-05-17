@@ -1,48 +1,48 @@
-# 安装指南
+# Installation Guide
 
-## 前置要求
+## Prerequisites
 
-在安装 NeoGodot 之前，请确保你的系统满足以下要求：
+Before installing NeoGodot, make sure your system meets the following requirements:
 
-- **Godot 4.x** - 编辑器
-- **Python 3.9+** - 用于 Runtime Gateway
-- **pip** - Python 包管理器
+- **Godot 4.x** - Editor
+- **Python 3.9+** - For Runtime Gateway
+- **pip** - Python package manager
 
-## 1. 获取项目
+## 1. Get the Project
 
-有几种方式获取 NeoGodot：
+There are several ways to get NeoGodot:
 
-### 方式 1: 克隆仓库
+### Option 1: Clone the Repository
 
 ```bash
 git clone https://github.com/yourusername/neogodot.git
 cd neogodot
 ```
 
-### 方式 2: 下载 ZIP
+### Option 2: Download ZIP
 
-1. 访问项目主页
-2. 点击 "Code" > "Download ZIP"
-3. 解压到你想要的位置
+1. Visit the project homepage
+2. Click "Code" > "Download ZIP"
+3. Extract to your desired location
 
-## 2. 安装 Runtime Gateway
+## 2. Install Runtime Gateway
 
-进入 runtime 目录并安装依赖：
+Navigate to the runtime directory and install dependencies:
 
 ```bash
 cd runtime
 pip install -r requirements.txt
 ```
 
-### 配置
+### Configuration
 
-复制示例配置：
+Copy the example configuration:
 
 ```bash
 cp .env.example .env
 ```
 
-编辑 `.env` 文件，填入你的 API Key：
+Edit the `.env` file and add your API keys:
 
 ```
 GATEWAY_HOST=0.0.0.0
@@ -51,38 +51,38 @@ OPENAI_API_KEY=your_openai_api_key_here
 ANTHROPIC_API_KEY=your_anthropic_api_key_here
 ```
 
-### 测试启动
+### Test the Server
 
 ```bash
 python main.py
 ```
 
-访问 http://localhost:8000/v1/health 确认服务正常运行。
+Visit http://localhost:8000/v1/health to verify the service is running.
 
-## 3. 使用插件
+## 3. Using the Plugin
 
-### 在现有项目中：
+### In an Existing Project:
 
-1. 复制 `addons/neo_godot/` 目录到你的 Godot 项目根目录
-2. 在 Godot Editor 中打开项目
-3. 进入 项目 > 项目设置 > 插件
-4. 启用 "NeoGodot AI Assistant"
+1. Copy the `addons/neo_godot/` directory to your Godot project root
+2. Open your project in Godot Editor
+3. Go to Project > Project Settings > Plugins
+4. Enable "NeoGodot AI Assistant"
 
-### 创建新项目：
+### Creating a New Project:
 
-1. 在 Godot 中创建新项目
-2. 将 `addons/` 目录复制进去
-3. 启用插件
+1. Create a new project in Godot
+2. Copy the `addons/` directory into it
+3. Enable the plugin
 
-## 4. 验证安装
+## 4. Verify Installation
 
-1. 确保 Runtime Gateway 正在运行
-2. 在 Godot 中启用插件
-3. 点击 NeoGodot 配置按钮
-4. 确认连接状态正常
+1. Ensure Runtime Gateway is running
+2. Enable the plugin in Godot
+3. Click the NeoGodot config button
+4. Verify connection status is healthy
 
-## 下一步
+## Next Steps
 
-完成安装后，查看[快速开始](QuickStart.md)开始使用！
+After installation, check out the [Quick Start](../QuickStart.md) to begin!
 
-遇到问题？查看[故障排除](../TROUBLESHOOTING.md)。
+Having issues? Check [Troubleshooting](../TROUBLESHOOTING.md).

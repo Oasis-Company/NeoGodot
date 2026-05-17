@@ -1,45 +1,45 @@
-# 发布说明
+# Release Notes
 
-## v0.1.0 - 初始发布
+## v0.1.0 - Initial Release
 
-### 发布日期
-未发布（开发中）
+### Release Date
+Unreleased (in development)
 
-### 主要特性
+### Key Features
 
-✨ **完整的 AI 辅助插件系统**
-- AI 助手 Dock 面板
-- 配置管理界面
-- 与 Runtime Gateway 集成
+✨ **Complete AI Assistant Plugin System**
+- AI Assistant Dock panel
+- Configuration management UI
+- Runtime Gateway integration
 
-🚀 **Runtime Gateway 服务**
-- FastAPI 后端
-- REST API 端点
-- WebSocket 支持
-- 健康检查端点
+🚀 **Runtime Gateway Service**
+- FastAPI backend
+- REST API endpoints
+- WebSocket support
+- Health check endpoint
 
-🔧 **核心功能**
-- 撤销/重做支持
-- 命令系统
-- 资源导入和规范化
-- 代码生成器
+🔧 **Core Features**
+- Undo/Redo support
+- Command system
+- Resource import and normalization
+- Code generator
 
-### 已知问题
+### Known Issues
 
-请查看 GitHub Issues 页面获取最新的问题列表。
+Please see the GitHub Issues page for the latest issue list.
 
-### 升级提示
+### Upgrade Notes
 
-这是第一个版本，无需升级。
+This is the first version, no upgrade needed.
 
 ---
 
-## 发布流程
+## Release Process
 
-创建发布的标准流程：
+Standard process for creating releases:
 
-1. 更新 CHANGELOG.md
-2. 更新版本号
-3. 运行完整测试
-4. 创建 Git tag
-5. 发布 Release
+1. Update CHANGELOG.md
+2. Update version number
+3. Run full tests
+4. Create Git tag
+5. Publish Release

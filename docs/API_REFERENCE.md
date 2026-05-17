@@ -1,26 +1,26 @@
-# Runtime Gateway API 参考
+# Runtime Gateway API Reference
 
-## 基础信息
+## Base Information
 
-**API 基础 URL**: `http://localhost:8000/v1`
+**API Base URL**: `http://localhost:8000/v1`
 
-**认证**: 暂时不需要（本地开发）
+**Authentication**: Not required (local development)
 
-## 通用响应
+## Common Response
 
-所有响应包含 `trace_id` 用于追踪。
+All responses include `trace_id` for tracing.
 
 ---
 
-## 端点
+## Endpoints
 
-### 健康检查
+### Health Check
 
 ```http
 GET /v1/health
 ```
 
-#### 响应示例
+#### Example Response
 
 ```json
 {
@@ -32,27 +32,27 @@ GET /v1/health
 
 ---
 
-### 文本生成
+### Text Generation
 
 ```http
 POST /v1/generate
 Content-Type: application/json
 ```
 
-#### 请求体
+#### Request Body
 
-| 字段 | 类型 | 必填 | 说明 |
+| Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `prompt` | string | 是 | 用户提示词 |
-| `model` | string | 否 | 要使用的模型 |
-| `max_tokens` | int | 否 | 最大 token 数 |
-| `temperature` | float | 否 | 温度，0-1 |
+| `prompt` | string | Yes | User prompt |
+| `model` | string | No | Model to use |
+| `max_tokens` | int | No | Maximum tokens |
+| `temperature` | float | No | Temperature, 0-1 |
 
-#### 响应示例
+#### Example Response
 
 ```json
 {
-  "content": "生成的内容...",
+  "content": "Generated content...",
   "trace_id": "abc-123",
   "model": "gpt-4",
   "usage": {
@@ -64,49 +64,49 @@ Content-Type: application/json
 
 ---
 
-### 图像生成
+### Image Generation
 
 ```http
 POST /v1/generate/image
 Content-Type: application/json
 ```
 
-#### 请求体
+#### Request Body
 
-| 字段 | 类型 | 必填 | 说明 |
+| Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `prompt` | string | 是 | 图像描述 |
-| `size` | string | 否 | 图像尺寸 |
-| `quality` | string | 否 | 质量设置 |
+| `prompt` | string | Yes | Image description |
+| `size` | string | No | Image size |
+| `quality` | string | No | Quality setting |
 
 ---
 
 ## WebSocket
 
-### 连接
+### Connection
 
 ```
 ws://localhost:8000/ws/stream
 ```
 
-### 消息类型
+### Message Types
 
-| 类型 | 说明 |
+| Type | Description |
 | --- | --- |
-| `ping` | 心跳检查 |
-| `pong` | 心跳响应 |
-| `generate` | 生成请求 |
-| `generation_complete` | 生成完成 |
-| `error` | 错误信息 |
+| `ping` | Heartbeat check |
+| `pong` | Heartbeat response |
+| `generate` | Generation request |
+| `generation_complete` | Generation complete |
+| `error` | Error message |
 
-### 错误处理
+### Error Handling
 
-所有错误响应格式一致：
+All error responses follow the same format:
 
 ```json
 {
-  "error": "描述信息",
-  "code": "错误代码",
-  "trace_id": "追踪 ID"
+  "error": "Description",
+  "code": "ERROR_CODE",
+  "trace_id": "trace-id"
 }
 ```

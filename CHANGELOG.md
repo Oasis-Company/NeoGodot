@@ -1,24 +1,24 @@
 # Changelog
 
-所有重要的项目变更都将在此文件中记录。
+All notable changes to this project will be documented in this file.
 
-格式基于 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.0.0/)。
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## [未发布]
+## [Unreleased]
 
-### 新增
-- 完整的插件架构和基础功能
-- Runtime Gateway 服务
-- 撤销/重做系统
-- 配置管理界面
-- 文档体系
+### Added
+- Complete plugin architecture and base functionality
+- Runtime Gateway service
+- Undo/Redo system
+- Configuration management UI
+- Documentation system
 
 ---
 
-## [0.1.0] - 预期日期
+## [0.1.0] - Expected Date
 
-### 新增
-- 项目初始发布
-- AI 助手插件
-- Runtime Gateway 服务
-- 完整文档
+### Added
+- Initial project release
+- AI Assistant plugin
+- Runtime Gateway service
+- Complete documentation
