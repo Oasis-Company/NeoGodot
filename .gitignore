@@ -73,6 +73,8 @@ st[A-Za-z0-9][A-Za-z0-9][A-Za-z0-9][A-Za-z0-9][A-Za-z0-9][A-Za-z0-9]
 # Python development
 .venv
 venv
+# Environment variables
+.env
 
 # Python generated
 __pycache__/

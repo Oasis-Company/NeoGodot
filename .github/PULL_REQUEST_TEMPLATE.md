@@ -1,6 +1,35 @@
-<!--
-Please target the `master` branch. We will take care of backporting relevant fixes to older versions.
+# Pull Request 说明
 
-Before submitting, please read our checklist for new contributors:
-https://contributing.godotengine.org/en/latest/engine/introduction.html#checklist-for-new-contributors
--->
+## 类型
+
+请在适用的选项前打钩：
+
+- [ ] 修复 Bug
+- [ ] 新功能
+- [ ] 代码改进
+- [ ] 文档更新
+- [ ] 其他
+
+## 描述
+
+简要说明这个改动解决了什么问题或添加了什么功能。
+
+## 变更内容
+
+- 修改了哪些文件？
+- 主要变更点是什么？
+- 有没有破坏性变更？
+
+## 测试情况
+
+- [ ] 已测试相关功能
+- [ ] 已添加单元测试
+- [ ] 文档已更新
+
+## 关联 Issue
+
+Closes #(issue号)
+
+## 补充说明
+
+其他相关信息或讨论。
