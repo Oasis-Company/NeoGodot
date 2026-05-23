@@ -12,7 +12,7 @@ import os
 from dotenv import load_dotenv
 
 from models.responses import HealthResponse, ErrorResponse, DependencyStatus
-from routes import generate_router
+from routes import generate_router, context_router
 from metrics import metrics_router
 from config import ConfigManager, get_config, ConfigError
 from logger import setup_logger
@@ -102,6 +102,7 @@ app = FastAPI(
 )
 
 app.include_router(generate_router)
+app.include_router(context_router)
 app.include_router(metrics_router)
 
 ws_manager = ConnectionManager()

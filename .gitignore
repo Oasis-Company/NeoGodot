@@ -399,3 +399,7 @@ $RECYCLE.BIN/
 *.msp
 *.lnk
 *.generated.props
+
+
+# OTHER
+prepare/

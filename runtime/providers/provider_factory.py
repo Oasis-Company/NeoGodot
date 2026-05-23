@@ -3,6 +3,7 @@ import logging
 from .base_provider import BaseProvider
 from .openai_provider import OpenAIProvider
 from .anthropic_provider import AnthropicProvider
+from .ollama_provider import OllamaProvider
 
 
 class ProviderFactory:
@@ -123,3 +124,4 @@ class ProviderFactory:
 ProviderFactory.register("openai", OpenAIProvider)
 ProviderFactory.register("anthropic", AnthropicProvider)
 ProviderFactory.register("openai_compatible", OpenAIProvider)
+ProviderFactory.register("ollama", OllamaProvider)
